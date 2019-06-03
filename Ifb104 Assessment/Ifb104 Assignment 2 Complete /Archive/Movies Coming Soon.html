@@ -1,0 +1,944 @@
+<!DOCTYPE html>
+<html>
+<head>
+
+    <script type="text/javascript">
+
+        window.lang = {
+            'locale': "en",
+            'locale_date_string': "dddd MMMM DD",
+            'locale_time_format': "h:mm A",
+            'now_playing': "NOW PLAYING",
+            'coming_soon': "COMING SOON",
+            'coming_soon_to': "Coming Soon to",
+            'more': "MORE",
+            'book': "Reserve",
+            'trailer': "TRAILER",
+            'directed_by': "Directed by",
+            'starring': "Starring",
+            'language': "Language",
+            'menu': "MENU",
+            'find_us': "FIND US",
+            'welcome_to': "Welcome to",
+            'closest_cinema': "Your closest cinema is",
+            'continue': "CONTINUE",
+            'cinema_selector_text': "If this isn’t the location you want, no drama, please select from the below.",
+            'see_all': "SEE ALL",
+            'at': "at",
+            'undated': "Undated",
+            'no_release_date': "No Release Date",
+            'minutes': "mins",
+            'rated': "Rated",
+            'tbc': "TBC",
+            'read_more': "Read more...",
+            'tweet': "Tweet",
+            'share': "Share",
+            'times_and_tickets': "Times &amp; Tickets",
+            'movie_times_and_tickets': "movie times &amp; tickets",
+            'by_day': "BY DAY",
+            'by_movie': "BY MOVIE",
+            'newest_first': "Newest first",
+            'order_alphabetically': "Order movies alphabetically",
+            'order_by_session': "Movies ordered by session times",
+            'print': "PRINT",
+            'movie_times': "Movie Times",
+            'advance_tickets': "ADVANCE TICKETS",
+            '404_communicate': "<h1>404 - Page not found.</h1><p>Looks like the page you’re looking for is unavailable.</p><p>Please head back to our <a href="/">homepage</a>.</p>",
+            'today': "Today",
+            'no_sessions': "No Session Times Available",
+            'no_movies_today': "No movies left today, try tomorrow.",
+            'sessions_key': "SESSIONS KEY. ",
+            'timezone': "Australia/Brisbane",
+        }
+
+
+    </script>
+
+    <title>Coming Soon to New Farm Cinemas, Five Star Cinemas</title>
+
+
+
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+    <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/font-awesome/4.4.0/css/font-awesome.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.8.0/css/bootstrap-datepicker3.standalone.min.css">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+
+    <!-- add custom font files -->
+        <link href='https://fonts.googleapis.com/css?family=Lato:400,900|Contrail+One' rel='stylesheet' type='text/css'>
+
+    <!-- add styles here -->
+    <link rel="stylesheet" type="text/css" href="/style.css" />
+
+    
+    <script src="https://code.jquery.com/jquery-1.12.4.min.js" integrity="sha256-ZosEbRLbNQzLpnKIkEdrPv7lOy9C27hHQ+Xp8a4MxAQ=" crossorigin="anonymous"></script>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/vanilla-lazyload/8.6.0/lazyload.min.js"></script>
+
+
+
+
+    <script type="text/javascript" src="https://d10u9ygjms7run.cloudfront.net/template_1/js/sly.min.js?c=v2.9.14"></script>
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.23.0/moment-with-locales.min.js"></script>
+    <script type="text/javascript" src="https://d10u9ygjms7run.cloudfront.net/template_1/js/moment-timezone-with-data.js?c=v2.9.14"></script>
+    
+    <script type="text/javascript" src="https://d10u9ygjms7run.cloudfront.net/template_1/js/jquery.mobile.custom.min.js?c=v2.9.14"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.8.0/js/bootstrap-datepicker.min.js"></script>
+    <!-- need to add other locale files from CDN library when adding new language to our system -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.8.0/locales/bootstrap-datepicker.en-NZ.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.8.0/locales/bootstrap-datepicker.fi.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.8.0/locales/bootstrap-datepicker.fr.min.js"></script>
+
+    <template id="templateMovieTimesByDay">
+        <div class="movie">
+            <div class="movie-details">
+                <a href="" class="poster-portrait-link"><img data-src="" class="poster-portrait mobile-hide"></a>
+                <a href="" class="poster-landscape-link"><img data-src="" class="poster-landscape mobile-show"></a>
+                <a href="" class="poster-landscape-link-ie hidden"><div class="poster-landscape mobile-show"></div></a>
+
+                <div class="movie-info">
+                    <a href="" class="movie-link"><h2></h2></a>
+                    <p class="duration-rating"></p>
+
+                    <div class="director mobile-hide"><b>Directed by </b></div>
+                    <div class="actors mobile-hide"><b>Starring </b></div>
+                </div>
+            </div>
+            <div class="movie-times"></div>
+        </div>
+    </template>
+
+    <template id="templateMovieTimesByMovie">
+        <div class="movie layout-by-movie">
+            <div class="posters">
+                <a href="" class="poster-portrait-link"><img src="" class="poster-portrait mobile-hide"></a>
+                <a href="" class="poster-landscape-link"><img src="" class="poster-landscape mobile-show"></a>
+                <a href="" class="poster-landscape-link-ie hidden"><div class="poster-landscape mobile-show"></div></a>
+
+                <div class="movie-info">
+                    <a href="" class="movie-link"><h2></h2></a>
+                    <p class="duration-rating"></p>
+                </div>
+            </div>
+            <div class="movie-details">
+                <div class="movie-info">
+                    <a href="" class="movie-link"><h2></h2></a>
+                    <p class="duration-rating"></p>
+
+                    <a href="" class="details-page-link">MORE / TRAILER</a>
+                </div>
+
+                <div class="movie-times"></div>
+            </div>
+        </div>
+    </template>
+
+    <template id="templateMovieWithSynopsis">
+        <div class="movie layout-by-movie with-synopsis">
+            <div class="posters">
+                <a href="" class="poster-portrait-link"><img src="" class="poster-portrait mobile-hide"></a>
+                <a href="" class="poster-landscape-link"><img src="" class="poster-landscape mobile-show"></a>
+                <a href="" class="poster-landscape-link-ie hidden"><div class="poster-landscape mobile-show"></div></a>
+
+                <div class="movie-info">
+                    <a href="" class="movie-link"><h2></h2></a>
+                    <div class="synopsis"></div>
+                </div>
+            </div>
+            <div class="movie-details">
+                <div class="movie-info">
+                    <a href="" class="movie-link"><h2></h2></a>
+                    <div class="synopsis"></div>
+
+                    <a href="" class="details-page-link">MORE / TRAILER</a>
+                </div>
+            </div>
+        </div>
+    </template>
+</head>
+<body>
+    <header>
+        <div class="main-menu with-container" >
+            <a href="#" class="menu-icon"></a>
+            <div class="menu-mobile">
+                <a href="#" class="close-menu">&times;</a>
+
+                <h2>MENU</h2>
+
+                <nav>
+                    <ul>
+                        <li ><a href="/">NOW PLAYING</a></li>
+                        <li  class="active" ><a href="/coming-soon">COMING SOON</a></li>
+
+                            <li  ><a href="/contact-us" >CONTACT US</a></li>
+                            <li  ><a href="/star-club" >THE STAR CLUB</a></li>
+                            <li  ><a href="/groups-and-hire" >GROUPS &amp; HIRE</a></li>
+
+                            <li ><a href="https://print.fivestarcinemas.com.au"  target="_blank" >QUICK TIMES</a></li>
+                            <li ><a href="https://www.facebook.com/pg/newfarmcinemas/events/?ref&#x3D;page_internal"  target="_blank" >FACEBOOK EVENTS</a></li>
+                            <li ><a href="/food-and-drink" >FOOD &amp; DRINK</a></li>
+                            <li ><a href="/prices" >TICKET PRICES</a></li>
+                            <li ><a href="/premium" >THE GOLD ROOMS</a></li>
+                            <li ><a href="/gift-cards" >GIFT CARDS</a></li>
+                            <li ><a href="/subscribe" >MAILING LIST</a></li>
+                            <li ><a href="/mums-and-bubs" >MUMS AND BUBS</a></li>
+                    </ul>
+                </nav>
+
+                <div class="social-media-header">
+                    <p class="find-us">FIND US</p>
+
+                    <a href="https://www.youtube.com/channel/UC1f7VP7l20bEc3BMcDxEIpg" target="_blank" class="youtube-header"></a> 
+                    <a href="http://www.twitter.com/NewFarmCinemas" target="_blank" class="twitter-header"></a> 
+                    <a href="http://www.instagram.com/newfarmcinemas/" target="_blank" class="instagram-header"></a> 
+                    <a href="https://www.facebook.com/newfarmcinemas/" target="_blank" class="facebook-header"></a> 
+                </div>
+            </div>
+
+            <div class="logo"><a href="/"><img src="https://d10u9ygjms7run.cloudfront.net/jrvyz6cav5m2kaq1mqmsb7ag7r/1523356148315_1520663057514_1520411384105_nfc.png"></a><br />
+
+            <div id="containerCinemas">
+                <a href="#" class="more"><i class="fa fa-map-marker" aria-hidden="true"></i> New Farm Cinemas</a>
+
+                <nav class="containerCinemasMenu">
+                    <ul>
+                           <li><a 
+                           href="/drive-in"><i class="fa fa-map-marker" aria-hidden="true"></i> Yatala Drive-In</a></li>
+                           <li><a 
+                           href="/the-elizabeth"><i class="fa fa-map-marker" aria-hidden="true"></i> Elizabeth Picture Theatre</a></li>
+
+                    </ul>
+                </nav>
+            </div>
+          </div>
+
+
+            <div class="menu-desktop">
+                <div class="social-media-header">
+                    <a href="https://www.youtube.com/channel/UC1f7VP7l20bEc3BMcDxEIpg" target="_blank" class="youtube-header"></a> 
+                    <a href="http://www.twitter.com/NewFarmCinemas" target="_blank" class="twitter-header"></a> 
+                    <a href="http://www.instagram.com/newfarmcinemas/" target="_blank" class="instagram-header"></a> 
+                    <a href="https://www.facebook.com/newfarmcinemas/" target="_blank" class="facebook-header"></a> 
+                </div>
+
+                <nav>
+                    <ul>
+                        <li ><a href="/">NOW PLAYING</a></li>
+                        <li  class="active" ><a href="/coming-soon">COMING SOON</a></li>
+
+                            <li  ><a href="/contact-us" >CONTACT US</a></li>
+                            <li  ><a href="/star-club" >THE STAR CLUB</a></li>
+                            <li  ><a href="/groups-and-hire" >GROUPS &amp; HIRE</a></li>
+
+                        <li>
+                            <a href="#" class="more">MORE</a>
+
+                            <nav class="sub-menu">
+                                <ul>
+                                       <li><a  target="_blank"  
+                                       href="https://print.fivestarcinemas.com.au">QUICK TIMES </a></li>
+                                       <li><a  target="_blank"  
+                                       href="https://www.facebook.com/pg/newfarmcinemas/events/?ref&#x3D;page_internal">FACEBOOK EVENTS </a></li>
+                                       <li><a  
+                                       href="/food-and-drink">FOOD &amp; DRINK </a></li>
+                                       <li><a  
+                                       href="/prices">TICKET PRICES </a></li>
+                                       <li><a  
+                                       href="/premium">THE GOLD ROOMS </a></li>
+                                       <li><a  
+                                       href="/gift-cards">GIFT CARDS </a></li>
+                                       <li><a  
+                                       href="/subscribe">MAILING LIST </a></li>
+                                       <li><a  
+                                       href="/mums-and-bubs">MUMS AND BUBS </a></li>
+                                </ul>
+                            </nav>
+                        </li>
+                    </ul>
+                </nav>
+            </div>
+        </div>
+
+    </header>
+
+    <section id="coming-soon">
+        <div class="print-title"><h1>Coming Soon to New Farm Cinemas</h1></div>
+
+        <div class="main-content">
+            <h1>COMING SOON</h1>
+
+            <div id="movie-list" class="flex-container flex-container-wrap">
+                <!-- display list of movies here -->
+                    <div class="movie flex-item-stretch">
+                        <a href="/movie/pokemon-detective-pikachu"><img src="https://d10u9ygjms7run.cloudfront.net/jrvyz6cav5m2kaq1mqmsb7ag7r/1556615469101_PDP_OneSheet_MAIN_AU_SOON.png" class="poster-portrait mobile-hide"></a>
+                        <a href="/movie/pokemon-detective-pikachu"><img src="https://d10u9ygjms7run.cloudfront.net/jrvyz6cav5m2kaq1mqmsb7ag7r/1551330637706_Poster.png" class="poster-landscape mobile-show"></a>
+
+                        <div class="movie-info upcoming">
+                            <a href="/movie/pokemon-detective-pikachu"><h2>Pokemon Detective Pikachu</h2></a>
+                            <p class="release-date">
+                                    9 May 2019
+                            </p>
+                        </div>
+                    </div>
+                    <div class="movie flex-item-stretch">
+                        <a href="/movie/poms"><img src="https://d10u9ygjms7run.cloudfront.net/jrvyz6cav5m2kaq1mqmsb7ag7r/1555217955348_ELIZPOSTERtemplate.png" class="poster-portrait mobile-hide"></a>
+                        <a href="/movie/poms"><img src="https://d10u9ygjms7run.cloudfront.net/jrvyz6cav5m2kaq1mqmsb7ag7r/1555217892494_POMS.png" class="poster-landscape mobile-show"></a>
+
+                        <div class="movie-info upcoming">
+                            <a href="/movie/poms"><h2>Poms</h2></a>
+                            <p class="release-date">
+                                    9 May 2019
+                            </p>
+                        </div>
+                    </div>
+                    <div class="movie flex-item-stretch">
+                        <a href="/movie/the-hustle"><img src="https://d10u9ygjms7run.cloudfront.net/jrvyz6cav5m2kaq1mqmsb7ag7r/1552041563067_HUSTLE.png" class="poster-portrait mobile-hide"></a>
+                        <a href="/movie/the-hustle"><img src="https://d10u9ygjms7run.cloudfront.net/jrvyz6cav5m2kaq1mqmsb7ag7r/1552041565224_HUSTLESTILL.png" class="poster-landscape mobile-show"></a>
+
+                        <div class="movie-info upcoming">
+                            <a href="/movie/the-hustle"><h2>The Hustle</h2></a>
+                            <p class="release-date">
+                                    9 May 2019
+                            </p>
+                        </div>
+                    </div>
+                    <div class="movie flex-item-stretch">
+                        <a href="/movie/2001-a-space-odyssey"><img src="https://d10u9ygjms7run.cloudfront.net/jrvyz6cav5m2kaq1mqmsb7ag7r/1554521435161_spaceod.jpeg" class="poster-portrait mobile-hide"></a>
+                        <a href="/movie/2001-a-space-odyssey"><img src="https://d10u9ygjms7run.cloudfront.net/jrvyz6cav5m2kaq1mqmsb7ag7r/1554521457778_spacelandscape.jpg" class="poster-landscape mobile-show"></a>
+
+                        <div class="movie-info upcoming">
+                            <a href="/movie/2001-a-space-odyssey"><h2>2001: A Space Odyssey</h2></a>
+                            <p class="release-date">
+                                    10 May 2019
+                            </p>
+                        </div>
+                    </div>
+                    <div class="movie flex-item-stretch">
+                        <a href="/movie/the-room"><img src="https://d10u9ygjms7run.cloudfront.net/jrvyz6cav5m2kaq1mqmsb7ag7r/1547686338315_1547686315336_1547686250106_2217ad1dd50c1017d3df6b44b7c45508_500x735.jpg" class="poster-portrait mobile-hide"></a>
+                        <a href="/movie/the-room"><img src="https://d10u9ygjms7run.cloudfront.net/jrvyz6cav5m2kaq1mqmsb7ag7r/1547686338437_1547686315467_1547686250238_2217ad1dd50c1017d3df6b44b7c45508_700x259.jpg" class="poster-landscape mobile-show"></a>
+
+                        <div class="movie-info upcoming">
+                            <a href="/movie/the-room"><h2>The Room</h2></a>
+                            <p class="release-date">
+                                    10 May 2019
+                            </p>
+                        </div>
+                    </div>
+                    <div class="movie flex-item-stretch">
+                        <a href="/movie/3-faces"><img src="https://d10u9ygjms7run.cloudfront.net/jrvyz6cav5m2kaq1mqmsb7ag7r/1556978634457_Poster.jpeg" class="poster-portrait mobile-hide"></a>
+                        <a href="/movie/3-faces"><img src="https://d10u9ygjms7run.cloudfront.net/jrvyz6cav5m2kaq1mqmsb7ag7r/1556978634742_Poster.png" class="poster-landscape mobile-show"></a>
+
+                        <div class="movie-info upcoming">
+                            <a href="/movie/3-faces"><h2>3 Faces</h2></a>
+                            <p class="release-date">
+                                    11 May 2019
+                            </p>
+                        </div>
+                    </div>
+                    <div class="movie flex-item-stretch">
+                        <a href="/movie/the-pretend-one"><img src="https://d10u9ygjms7run.cloudfront.net/jrvyz6cav5m2kaq1mqmsb7ag7r/1550291786601_POSTERtemplate.png" class="poster-portrait mobile-hide"></a>
+                        <a href="/movie/the-pretend-one"><img src="https://d10u9ygjms7run.cloudfront.net/jrvyz6cav5m2kaq1mqmsb7ag7r/1550291889275_STILLtemplate.png" class="poster-landscape mobile-show"></a>
+
+                        <div class="movie-info upcoming">
+                            <a href="/movie/the-pretend-one"><h2>The Pretend One</h2></a>
+                            <p class="release-date">
+                                    15 May 2019
+                            </p>
+                        </div>
+                    </div>
+                    <div class="movie flex-item-stretch">
+                        <a href="/movie/john-wick-chapter-3"><img src="https://d10u9ygjms7run.cloudfront.net/jrvyz6cav5m2kaq1mqmsb7ag7r/1555648194181_ELIZPOSTERtemplate.png" class="poster-portrait mobile-hide"></a>
+                        <a href="/movie/john-wick-chapter-3"><img src="https://d10u9ygjms7run.cloudfront.net/jrvyz6cav5m2kaq1mqmsb7ag7r/1555648195829_ELIZSTILL.png" class="poster-landscape mobile-show"></a>
+
+                        <div class="movie-info upcoming">
+                            <a href="/movie/john-wick-chapter-3"><h2>John Wick: Chapter 3</h2></a>
+                            <p class="release-date">
+                                    16 May 2019
+                            </p>
+                        </div>
+                    </div>
+                    <div class="movie flex-item-stretch">
+                        <a href="/movie/acute-misfortune"><img src="https://d10u9ygjms7run.cloudfront.net/jrvyz6cav5m2kaq1mqmsb7ag7r/1554977804790_acute.png" class="poster-portrait mobile-hide"></a>
+                        <a href="/movie/acute-misfortune"><img src="https://d10u9ygjms7run.cloudfront.net/jrvyz6cav5m2kaq1mqmsb7ag7r/1555649981933_acutemisfortune.png" class="poster-landscape mobile-show"></a>
+
+                        <div class="movie-info upcoming">
+                            <a href="/movie/acute-misfortune"><h2>Acute Misfortune</h2></a>
+                            <p class="release-date">
+                                    17 May 2019
+                            </p>
+                        </div>
+                    </div>
+                    <div class="movie flex-item-stretch">
+                        <a href="/movie/dirty-dancing"><img src="https://d10u9ygjms7run.cloudfront.net/jrvyz6cav5m2kaq1mqmsb7ag7r/1554521139837_MV5BMTc3MDY3ODQ2OV5BMl5BanBnXkFtZTgwOTQ2NTYxMTE_V1_.jpg" class="poster-portrait mobile-hide"></a>
+                        <a href="/movie/dirty-dancing"><img src="https://d10u9ygjms7run.cloudfront.net/jrvyz6cav5m2kaq1mqmsb7ag7r/1554521138036_MV5BMjU5MGE5MTAtYzg3OC00ZDRkLWE4MTItOWFiMGRlMGNmMjQwXkEyXkFqcGdeQXVyMTAyNDU2NDM_V1_SY1000_CR0013781000_AL_.jpg" class="poster-landscape mobile-show"></a>
+
+                        <div class="movie-info upcoming">
+                            <a href="/movie/dirty-dancing"><h2>Dirty Dancing</h2></a>
+                            <p class="release-date">
+                                    17 May 2019
+                            </p>
+                        </div>
+                    </div>
+                    <div class="movie flex-item-stretch">
+                        <a href="/movie/over-the-fence-comedy-film-festival"><img src="https://d10u9ygjms7run.cloudfront.net/jrvyz6cav5m2kaq1mqmsb7ag7r/1550539221329_Poster.png" class="poster-portrait mobile-hide"></a>
+                        <a href="/movie/over-the-fence-comedy-film-festival"><img src="https://d10u9ygjms7run.cloudfront.net/jrvyz6cav5m2kaq1mqmsb7ag7r/1555650076490_IW-1-1024x576.jpeg" class="poster-landscape mobile-show"></a>
+
+                        <div class="movie-info upcoming">
+                            <a href="/movie/over-the-fence-comedy-film-festival"><h2>Over The Fence Comedy Film Festival</h2></a>
+                            <p class="release-date">
+                                    17 May 2019
+                            </p>
+                        </div>
+                    </div>
+                    <div class="movie flex-item-stretch">
+                        <a href="/movie/gauguin-in-tahiti-paradise-lost"><img src="https://d10u9ygjms7run.cloudfront.net/jrvyz6cav5m2kaq1mqmsb7ag7r/1551068343675_GAUGUIN.png" class="poster-portrait mobile-hide"></a>
+                        <a href="/movie/gauguin-in-tahiti-paradise-lost"><img src="https://d10u9ygjms7run.cloudfront.net/jrvyz6cav5m2kaq1mqmsb7ag7r/1551068345003_GAUGSTILL.png" class="poster-landscape mobile-show"></a>
+
+                        <div class="movie-info upcoming">
+                            <a href="/movie/gauguin-in-tahiti-paradise-lost"><h2>Gauguin in Tahiti: Paradise Lost</h2></a>
+                            <p class="release-date">
+                                    18 May 2019
+                            </p>
+                        </div>
+                    </div>
+                    <div class="movie flex-item-stretch">
+                        <a href="/movie/rocky-horror-picture-show"><img src="https://d10u9ygjms7run.cloudfront.net/jrvyz6cav5m2kaq1mqmsb7ag7r/1549967860736_rocky.png" class="poster-portrait mobile-hide"></a>
+                        <a href="/movie/rocky-horror-picture-show"><img src="https://d10u9ygjms7run.cloudfront.net/jrvyz6cav5m2kaq1mqmsb7ag7r/1549967849488_stillrocky.png" class="poster-landscape mobile-show"></a>
+
+                        <div class="movie-info upcoming">
+                            <a href="/movie/rocky-horror-picture-show"><h2>Rocky Horror Picture Show</h2></a>
+                            <p class="release-date">
+                                    18 May 2019
+                            </p>
+                        </div>
+                    </div>
+                    <div class="movie flex-item-stretch">
+                        <a href="/movie/aladdin"><img src="https://d10u9ygjms7run.cloudfront.net/jrvyz6cav5m2kaq1mqmsb7ag7r/1556617206903_ELIZPOSTERtemplate.png" class="poster-portrait mobile-hide"></a>
+                        <a href="/movie/aladdin"><img src="https://d10u9ygjms7run.cloudfront.net/jrvyz6cav5m2kaq1mqmsb7ag7r/1556617168266_ELIZSTILL.png" class="poster-landscape mobile-show"></a>
+
+                        <div class="movie-info upcoming">
+                            <a href="/movie/aladdin"><h2>Aladdin</h2></a>
+                            <p class="release-date">
+                                    23 May 2019
+                            </p>
+                        </div>
+                    </div>
+                    <div class="movie flex-item-stretch">
+                        <a href="/movie/brightburn"><img src="https://d10u9ygjms7run.cloudfront.net/jrvyz6cav5m2kaq1mqmsb7ag7r/1554521062271_BB_Launch_A4poster.jpg" class="poster-portrait mobile-hide"></a>
+                        <a href="/movie/brightburn"><img src="https://ticketing.oz.veezi.com/Media/Poster?siteToken&#x3D;o0ezd1t5gyg3ocp7ey4bx22jpu&amp;code&#x3D;0000004696&amp;isHighRes&#x3D;true" class="poster-landscape mobile-show"></a>
+
+                        <div class="movie-info upcoming">
+                            <a href="/movie/brightburn"><h2>BrightBurn</h2></a>
+                            <p class="release-date">
+                                    23 May 2019
+                            </p>
+                        </div>
+                    </div>
+                    <div class="movie flex-item-stretch">
+                        <a href="/movie/the-predator"><img src="https://d10u9ygjms7run.cloudfront.net/jrvyz6cav5m2kaq1mqmsb7ag7r/1556978639105_Poster.jpg" class="poster-portrait mobile-hide"></a>
+                        <a href="/movie/the-predator"><img src="https://d10u9ygjms7run.cloudfront.net/jrvyz6cav5m2kaq1mqmsb7ag7r/1555649715028_predator_1987_20-h_2017.jpg" class="poster-landscape mobile-show"></a>
+
+                        <div class="movie-info upcoming">
+                            <a href="/movie/the-predator"><h2>The Predator (1987)</h2></a>
+                            <p class="release-date">
+                                    24 May 2019
+                            </p>
+                        </div>
+                    </div>
+                    <div class="movie flex-item-stretch">
+                        <a href="/movie/national-theatre-live-all-about-eve"><img src="https://d10u9ygjms7run.cloudfront.net/jrvyz6cav5m2kaq1mqmsb7ag7r/1556978624859_Poster.jpg" class="poster-portrait mobile-hide"></a>
+                        <a href="/movie/national-theatre-live-all-about-eve"><img src="https://d10u9ygjms7run.cloudfront.net/jrvyz6cav5m2kaq1mqmsb7ag7r/1556978625113_Poster.png" class="poster-landscape mobile-show"></a>
+
+                        <div class="movie-info upcoming">
+                            <a href="/movie/national-theatre-live-all-about-eve"><h2>National Theatre Live: All About Eve</h2></a>
+                            <p class="release-date">
+                                    25 May 2019
+                            </p>
+                        </div>
+                    </div>
+                    <div class="movie flex-item-stretch">
+                        <a href="/movie/godzilla-ii-king-of-the-monsters"><img src="https://d10u9ygjms7run.cloudfront.net/jrvyz6cav5m2kaq1mqmsb7ag7r/1556616838319_Godzilla_II_KOTM_MAIN_1Sht_AU_LR.jpg" class="poster-portrait mobile-hide"></a>
+                        <a href="/movie/godzilla-ii-king-of-the-monsters"><img src="https://ticketing.oz.veezi.com/Media/Poster?siteToken&#x3D;o0ezd1t5gyg3ocp7ey4bx22jpu&amp;code&#x3D;0000004680&amp;isHighRes&#x3D;true" class="poster-landscape mobile-show"></a>
+
+                        <div class="movie-info upcoming">
+                            <a href="/movie/godzilla-ii-king-of-the-monsters"><h2>Godzilla II: King of the Monsters</h2></a>
+                            <p class="release-date">
+                                    30 May 2019
+                            </p>
+                        </div>
+                    </div>
+                    <div class="movie flex-item-stretch">
+                        <a href="/movie/rocketman"><img src="https://d10u9ygjms7run.cloudfront.net/jrvyz6cav5m2kaq1mqmsb7ag7r/1556617130441_ROCKETMAN-PAYOFF-1-SHEET.png" class="poster-portrait mobile-hide"></a>
+                        <a href="/movie/rocketman"><img src="https://d10u9ygjms7run.cloudfront.net/jrvyz6cav5m2kaq1mqmsb7ag7r/1547686320560_1547686285418_1547513205953_ROCKETMAN_FIRSTLOOK.png" class="poster-landscape mobile-show"></a>
+
+                        <div class="movie-info upcoming">
+                            <a href="/movie/rocketman"><h2>Rocketman</h2></a>
+                            <p class="release-date">
+                                    30 May 2019
+                            </p>
+                        </div>
+                    </div>
+                    <div class="movie flex-item-stretch">
+                        <a href="/movie/rockabul"><img src="https://d10u9ygjms7run.cloudfront.net/jrvyz6cav5m2kaq1mqmsb7ag7r/1556978643813_Poster.png" class="poster-portrait mobile-hide"></a>
+                        <a href="/movie/rockabul"><img src="/template_1/img/default-movie-landscape.jpg" class="poster-landscape mobile-show"></a>
+
+                        <div class="movie-info upcoming">
+                            <a href="/movie/rockabul"><h2>Rockabul</h2></a>
+                            <p class="release-date">
+                                    1 June 2019
+                            </p>
+                        </div>
+                    </div>
+                    <div class="movie flex-item-stretch">
+                        <a href="/movie/state-of-origin-game-1"><img src="https://ticketing.oz.veezi.com/Media/Poster?siteToken&#x3D;o0ezd1t5gyg3ocp7ey4bx22jpu&amp;code&#x3D;0000003464&amp;isHighRes&#x3D;true" class="poster-portrait mobile-hide"></a>
+                        <a href="/movie/state-of-origin-game-1"><img src="https://ticketing.oz.veezi.com/Media/Poster?siteToken&#x3D;o0ezd1t5gyg3ocp7ey4bx22jpu&amp;code&#x3D;0000004701&amp;isHighRes&#x3D;true" class="poster-landscape mobile-show"></a>
+
+                        <div class="movie-info upcoming">
+                            <a href="/movie/state-of-origin-game-1"><h2>State of Origin: Game 1</h2></a>
+                            <p class="release-date">
+                                    5 June 2019
+                            </p>
+                        </div>
+                    </div>
+                    <div class="movie flex-item-stretch">
+                        <a href="/movie/exhibition-on-screen-season-6-degas---passion-fo"><img src="https://d10u9ygjms7run.cloudfront.net/jrvyz6cav5m2kaq1mqmsb7ag7r/1555645387665_Degas_Aus_poster_1000x700_REPRO.png" class="poster-portrait mobile-hide"></a>
+                        <a href="/movie/exhibition-on-screen-season-6-degas---passion-fo"><img src="https://d10u9ygjms7run.cloudfront.net/jrvyz6cav5m2kaq1mqmsb7ag7r/1555645392212_Degas_PassionforPerfectionLandscapeEXHIBITIONONSCREEN.png" class="poster-landscape mobile-show"></a>
+
+                        <div class="movie-info upcoming">
+                            <a href="/movie/exhibition-on-screen-season-6-degas---passion-fo"><h2>EXHIBITION ON SCREEN: Season 6; Degas - Passion fo</h2></a>
+                            <p class="release-date">
+                                    6 June 2019
+                            </p>
+                        </div>
+                    </div>
+                    <div class="movie flex-item-stretch">
+                        <a href="/movie/red-joan"><img src="https://ticketing.oz.veezi.com/Media/Poster?siteToken&#x3D;o0ezd1t5gyg3ocp7ey4bx22jpu&amp;code&#x3D;0000004671&amp;isHighRes&#x3D;true" class="poster-portrait mobile-hide"></a>
+                        <a href="/movie/red-joan"><img src="https://ticketing.oz.veezi.com/Media/Poster?siteToken&#x3D;o0ezd1t5gyg3ocp7ey4bx22jpu&amp;code&#x3D;0000004670&amp;isHighRes&#x3D;true" class="poster-landscape mobile-show"></a>
+
+                        <div class="movie-info upcoming">
+                            <a href="/movie/red-joan"><h2>Red Joan</h2></a>
+                            <p class="release-date">
+                                    6 June 2019
+                            </p>
+                        </div>
+                    </div>
+                    <div class="movie flex-item-stretch">
+                        <a href="/movie/x-men-dark-phoenix"><img src="https://d10u9ygjms7run.cloudfront.net/jrvyz6cav5m2kaq1mqmsb7ag7r/1551869420501_Poster.jpeg" class="poster-portrait mobile-hide"></a>
+                        <a href="/movie/x-men-dark-phoenix"><img src="https://d10u9ygjms7run.cloudfront.net/jrvyz6cav5m2kaq1mqmsb7ag7r/1551869421186_Poster.png" class="poster-landscape mobile-show"></a>
+
+                        <div class="movie-info upcoming">
+                            <a href="/movie/x-men-dark-phoenix"><h2>X-Men: Dark Phoenix</h2></a>
+                            <p class="release-date">
+                                    6 June 2019
+                            </p>
+                        </div>
+                    </div>
+                    <div class="movie flex-item-stretch">
+                        <a href="/movie/alien-directors-cut"><img src="https://d10u9ygjms7run.cloudfront.net/jrvyz6cav5m2kaq1mqmsb7ag7r/1555649683411_ALIEN.jpg" class="poster-portrait mobile-hide"></a>
+                        <a href="/movie/alien-directors-cut"><img src="https://d10u9ygjms7run.cloudfront.net/jrvyz6cav5m2kaq1mqmsb7ag7r/1555649622203___5951694ba7c7f-medium.jpg" class="poster-landscape mobile-show"></a>
+
+                        <div class="movie-info upcoming">
+                            <a href="/movie/alien-directors-cut"><h2>Alien Director&#x27;s Cut</h2></a>
+                            <p class="release-date">
+                                    7 June 2019
+                            </p>
+                        </div>
+                    </div>
+                    <div class="movie flex-item-stretch">
+                        <a href="/movie/amazing-grace"><img src="https://ticketing.oz.veezi.com/Media/Poster?siteToken&#x3D;o0ezd1t5gyg3ocp7ey4bx22jpu&amp;code&#x3D;0000004668&amp;isHighRes&#x3D;true" class="poster-portrait mobile-hide"></a>
+                        <a href="/movie/amazing-grace"><img src="https://d10u9ygjms7run.cloudfront.net/jrvyz6cav5m2kaq1mqmsb7ag7r/1554521005354_MV5BYjg0YzI1YWQtZGJmMS00NDg2LWFlNTgtMWFkN2RhZmRkZTFiXkEyXkFqcGdeQXVyMTg3MzQ5MjY_V1_.jpg" class="poster-landscape mobile-show"></a>
+
+                        <div class="movie-info upcoming">
+                            <a href="/movie/amazing-grace"><h2>Amazing Grace</h2></a>
+                            <p class="release-date">
+                                    13 June 2019
+                            </p>
+                        </div>
+                    </div>
+                    <div class="movie flex-item-stretch">
+                        <a href="/movie/men-in-black-international"><img src="https://ticketing.oz.veezi.com/Media/Poster?siteToken&#x3D;o0ezd1t5gyg3ocp7ey4bx22jpu&amp;code&#x3D;0000004682&amp;isHighRes&#x3D;true" class="poster-portrait mobile-hide"></a>
+                        <a href="/movie/men-in-black-international"><img src="https://ticketing.oz.veezi.com/Media/Poster?siteToken&#x3D;o0ezd1t5gyg3ocp7ey4bx22jpu&amp;code&#x3D;0000004683&amp;isHighRes&#x3D;true" class="poster-landscape mobile-show"></a>
+
+                        <div class="movie-info upcoming">
+                            <a href="/movie/men-in-black-international"><h2>Men In Black: International</h2></a>
+                            <p class="release-date">
+                                    13 June 2019
+                            </p>
+                        </div>
+                    </div>
+                    <div class="movie flex-item-stretch">
+                        <a href="/movie/tolkien"><img src="https://d10u9ygjms7run.cloudfront.net/jrvyz6cav5m2kaq1mqmsb7ag7r/1555218067047_ELIZPOSTERtemplate.png" class="poster-portrait mobile-hide"></a>
+                        <a href="/movie/tolkien"><img src="https://d10u9ygjms7run.cloudfront.net/jrvyz6cav5m2kaq1mqmsb7ag7r/1555218033939_ELIZSTILL.png" class="poster-landscape mobile-show"></a>
+
+                        <div class="movie-info upcoming">
+                            <a href="/movie/tolkien"><h2>Tolkien</h2></a>
+                            <p class="release-date">
+                                    13 June 2019
+                            </p>
+                        </div>
+                    </div>
+                    <div class="movie flex-item-stretch">
+                        <a href="/movie/wild-rose"><img src="https://ticketing.oz.veezi.com/Media/Poster?siteToken&#x3D;o0ezd1t5gyg3ocp7ey4bx22jpu&amp;code&#x3D;0000004703&amp;isHighRes&#x3D;true" class="poster-portrait mobile-hide"></a>
+                        <a href="/movie/wild-rose"><img src="https://ticketing.oz.veezi.com/Media/Poster?siteToken&#x3D;o0ezd1t5gyg3ocp7ey4bx22jpu&amp;code&#x3D;0000004704&amp;isHighRes&#x3D;true" class="poster-landscape mobile-show"></a>
+
+                        <div class="movie-info upcoming">
+                            <a href="/movie/wild-rose"><h2>Wild Rose</h2></a>
+                            <p class="release-date">
+                                    13 June 2019
+                            </p>
+                        </div>
+                    </div>
+                    <div class="movie flex-item-stretch">
+                        <a href="/movie/warren-millers-face-of-winter"><img src="https://d10u9ygjms7run.cloudfront.net/jrvyz6cav5m2kaq1mqmsb7ag7r/1554520948334_MV5BNmM0NmEwYmMtNmNkZS00Mzc1LWIyZjgtZjhhMjA2YzQ3Mjk2XkEyXkFqcGdeQXVyOTI3OTY4MTM_V1_.jpg" class="poster-portrait mobile-hide"></a>
+                        <a href="/movie/warren-millers-face-of-winter"><img src="https://d10u9ygjms7run.cloudfront.net/jrvyz6cav5m2kaq1mqmsb7ag7r/1554520950351_MV5BNmM0NmEwYmMtNmNkZS00Mzc1LWIyZjgtZjhhMjA2YzQ3Mjk2XkEyXkFqcGdeQXVyOTI3OTY4MTM_V1_.jpg" class="poster-landscape mobile-show"></a>
+
+                        <div class="movie-info upcoming">
+                            <a href="/movie/warren-millers-face-of-winter"><h2>Warren Miller&#x27;s Face of Winter</h2></a>
+                            <p class="release-date">
+                                    14 June 2019
+                            </p>
+                        </div>
+                    </div>
+                    <div class="movie flex-item-stretch">
+                        <a href="/movie/me-and-my-left-brain"><img src="https://d10u9ygjms7run.cloudfront.net/jrvyz6cav5m2kaq1mqmsb7ag7r/1553075542175_LEFTBRAIN.png" class="poster-portrait mobile-hide"></a>
+                        <a href="/movie/me-and-my-left-brain"><img src="https://d10u9ygjms7run.cloudfront.net/jrvyz6cav5m2kaq1mqmsb7ag7r/1553075544841_LEFTBRAINSTILL.png" class="poster-landscape mobile-show"></a>
+
+                        <div class="movie-info upcoming">
+                            <a href="/movie/me-and-my-left-brain"><h2>Me and My Left Brain</h2></a>
+                            <p class="release-date">
+                                    17 June 2019
+                            </p>
+                        </div>
+                    </div>
+                    <div class="movie flex-item-stretch">
+                        <a href="/movie/ask-dr-ruth"><img src="https://d10u9ygjms7run.cloudfront.net/jrvyz6cav5m2kaq1mqmsb7ag7r/1556978620727_Poster.jpg" class="poster-portrait mobile-hide"></a>
+                        <a href="/movie/ask-dr-ruth"><img src="https://d10u9ygjms7run.cloudfront.net/jrvyz6cav5m2kaq1mqmsb7ag7r/1555649563687_DrRuth_MQ-1600x520.png" class="poster-landscape mobile-show"></a>
+
+                        <div class="movie-info upcoming">
+                            <a href="/movie/ask-dr-ruth"><h2>Ask Dr Ruth</h2></a>
+                            <p class="release-date">
+                                    20 June 2019
+                            </p>
+                        </div>
+                    </div>
+                    <div class="movie flex-item-stretch">
+                        <a href="/movie/childs-play"><img src="https://ticketing.oz.veezi.com/Media/Poster?siteToken&#x3D;o0ezd1t5gyg3ocp7ey4bx22jpu&amp;code&#x3D;0000004698&amp;isHighRes&#x3D;true" class="poster-portrait mobile-hide"></a>
+                        <a href="/movie/childs-play"><img src="https://ticketing.oz.veezi.com/Media/Poster?siteToken&#x3D;o0ezd1t5gyg3ocp7ey4bx22jpu&amp;code&#x3D;0000004699&amp;isHighRes&#x3D;true" class="poster-landscape mobile-show"></a>
+
+                        <div class="movie-info upcoming">
+                            <a href="/movie/childs-play"><h2>Child&#x27;s Play</h2></a>
+                            <p class="release-date">
+                                    20 June 2019
+                            </p>
+                        </div>
+                    </div>
+                    <div class="movie flex-item-stretch">
+                        <a href="/movie/the-secret-life-of-pets-2"><img src="https://ticketing.oz.veezi.com/Media/Poster?siteToken&#x3D;o0ezd1t5gyg3ocp7ey4bx22jpu&amp;code&#x3D;0000004685&amp;isHighRes&#x3D;true" class="poster-portrait mobile-hide"></a>
+                        <a href="/movie/the-secret-life-of-pets-2"><img src="https://ticketing.oz.veezi.com/Media/Poster?siteToken&#x3D;o0ezd1t5gyg3ocp7ey4bx22jpu&amp;code&#x3D;0000004686&amp;isHighRes&#x3D;true" class="poster-landscape mobile-show"></a>
+
+                        <div class="movie-info upcoming">
+                            <a href="/movie/the-secret-life-of-pets-2"><h2>The Secret Life of Pets 2</h2></a>
+                            <p class="release-date">
+                                    20 June 2019
+                            </p>
+                        </div>
+                    </div>
+                    <div class="movie flex-item-stretch">
+                        <a href="/movie/toy-story-4"><img src="https://ticketing.oz.veezi.com/Media/Poster?siteToken&#x3D;o0ezd1t5gyg3ocp7ey4bx22jpu&amp;code&#x3D;0000004689&amp;isHighRes&#x3D;true" class="poster-portrait mobile-hide"></a>
+                        <a href="/movie/toy-story-4"><img src="https://ticketing.oz.veezi.com/Media/Poster?siteToken&#x3D;o0ezd1t5gyg3ocp7ey4bx22jpu&amp;code&#x3D;0000004688&amp;isHighRes&#x3D;true" class="poster-landscape mobile-show"></a>
+
+                        <div class="movie-info upcoming">
+                            <a href="/movie/toy-story-4"><h2>Toy Story 4</h2></a>
+                            <p class="release-date">
+                                    20 June 2019
+                            </p>
+                        </div>
+                    </div>
+                    <div class="movie flex-item-stretch">
+                        <a href="/movie/yesterday"><img src="https://ticketing.oz.veezi.com/Media/Poster?siteToken&#x3D;o0ezd1t5gyg3ocp7ey4bx22jpu&amp;code&#x3D;0000004706&amp;isHighRes&#x3D;true" class="poster-portrait mobile-hide"></a>
+                        <a href="/movie/yesterday"><img src="https://ticketing.oz.veezi.com/Media/Poster?siteToken&#x3D;o0ezd1t5gyg3ocp7ey4bx22jpu&amp;code&#x3D;0000004707&amp;isHighRes&#x3D;true" class="poster-landscape mobile-show"></a>
+
+                        <div class="movie-info upcoming">
+                            <a href="/movie/yesterday"><h2>Yesterday</h2></a>
+                            <p class="release-date">
+                                    27 June 2019
+                            </p>
+                        </div>
+                    </div>
+                    <div class="movie flex-item-stretch">
+                        <a href="/movie/spider-man-far-from-home"><img src="https://d10u9ygjms7run.cloudfront.net/jrvyz6cav5m2kaq1mqmsb7ag7r/1556978624135_Poster.jpeg" class="poster-portrait mobile-hide"></a>
+                        <a href="/movie/spider-man-far-from-home"><img src="https://d10u9ygjms7run.cloudfront.net/jrvyz6cav5m2kaq1mqmsb7ag7r/1556978624410_Poster.jpg" class="poster-landscape mobile-show"></a>
+
+                        <div class="movie-info upcoming">
+                            <a href="/movie/spider-man-far-from-home"><h2>Spider-Man: Far from Home</h2></a>
+                            <p class="release-date">
+                                    1 July 2019
+                            </p>
+                        </div>
+                    </div>
+                    <div class="movie flex-item-stretch">
+                        <a href="/movie/mystify-michael-hutchence"><img src="https://d10u9ygjms7run.cloudfront.net/jrvyz6cav5m2kaq1mqmsb7ag7r/1555649502318_MV5BMzk3YjQ2ZDQtNDFhNi00MTI4LTk2MTYtNDVmNmY5NDlkZDI1XkEyXkFqcGdeQXVyMDE5MTI3OA_V1_.jpg" class="poster-portrait mobile-hide"></a>
+                        <a href="/movie/mystify-michael-hutchence"><img src="https://d10u9ygjms7run.cloudfront.net/jrvyz6cav5m2kaq1mqmsb7ag7r/1555649509503_Mystify_MH-1749x960.jpg" class="poster-landscape mobile-show"></a>
+
+                        <div class="movie-info upcoming">
+                            <a href="/movie/mystify-michael-hutchence"><h2>Mystify: Michael Hutchence</h2></a>
+                            <p class="release-date">
+                                    4 July 2019
+                            </p>
+                        </div>
+                    </div>
+                    <div class="movie flex-item-stretch">
+                        <a href="/movie/the-prado-museum-a-collection-of-wonders"><img src="https://d10u9ygjms7run.cloudfront.net/jrvyz6cav5m2kaq1mqmsb7ag7r/1551068323820_PRADO.png" class="poster-portrait mobile-hide"></a>
+                        <a href="/movie/the-prado-museum-a-collection-of-wonders"><img src="https://d10u9ygjms7run.cloudfront.net/jrvyz6cav5m2kaq1mqmsb7ag7r/1551068325128_PRADOSTILL.png" class="poster-landscape mobile-show"></a>
+
+                        <div class="movie-info upcoming">
+                            <a href="/movie/the-prado-museum-a-collection-of-wonders"><h2>The Prado Museum: A Collection of Wonders</h2></a>
+                            <p class="release-date">
+                                    13 July 2019
+                            </p>
+                        </div>
+                    </div>
+                    <div class="movie flex-item-stretch">
+                        <a href="/movie/the-lion-king"><img src="https://d10u9ygjms7run.cloudfront.net/jrvyz6cav5m2kaq1mqmsb7ag7r/1556978627877_Poster.jpg" class="poster-portrait mobile-hide"></a>
+                        <a href="/movie/the-lion-king"><img src="https://d10u9ygjms7run.cloudfront.net/jrvyz6cav5m2kaq1mqmsb7ag7r/1555649481002_THELIONKING_POSTER_AUSTRALIA.png" class="poster-landscape mobile-show"></a>
+
+                        <div class="movie-info upcoming">
+                            <a href="/movie/the-lion-king"><h2>The Lion King</h2></a>
+                            <p class="release-date">
+                                    17 July 2019
+                            </p>
+                        </div>
+                    </div>
+                    <div class="movie flex-item-stretch">
+                        <a href="/movie/art--mind"><img src="https://d10u9ygjms7run.cloudfront.net/jrvyz6cav5m2kaq1mqmsb7ag7r/1550745715634_Poster.png" class="poster-portrait mobile-hide"></a>
+                        <a href="/movie/art--mind"><img src="https://d10u9ygjms7run.cloudfront.net/jrvyz6cav5m2kaq1mqmsb7ag7r/1555649454185_MV5BMTU2ZDQzY2QtN2NkZC00YWVmLWJlNDktNGVmZDE1NTU3Njc1XkEyXkFqcGdeQXVyNTE0NTY0MDA_V1_SY1000_CR006741000_AL_.png" class="poster-landscape mobile-show"></a>
+
+                        <div class="movie-info upcoming">
+                            <a href="/movie/art--mind"><h2>Art &amp; Mind</h2></a>
+                            <p class="release-date">
+                                    18 July 2019
+                            </p>
+                        </div>
+                    </div>
+                    <div class="movie flex-item-stretch">
+                        <a href="/movie/maiden"><img src="https://d10u9ygjms7run.cloudfront.net/jrvyz6cav5m2kaq1mqmsb7ag7r/1556978631627_Poster.jpeg" class="poster-portrait mobile-hide"></a>
+                        <a href="/movie/maiden"><img src="https://d10u9ygjms7run.cloudfront.net/jrvyz6cav5m2kaq1mqmsb7ag7r/1556978631912_Poster.png" class="poster-landscape mobile-show"></a>
+
+                        <div class="movie-info upcoming">
+                            <a href="/movie/maiden"><h2>Maiden</h2></a>
+                            <p class="release-date">
+                                    18 July 2019
+                            </p>
+                        </div>
+                    </div>
+                    <div class="movie flex-item-stretch">
+                        <a href="/movie/late-night"><img src="https://d10u9ygjms7run.cloudfront.net/jrvyz6cav5m2kaq1mqmsb7ag7r/1555218208080_ELIZPOSTERtemplate.png" class="poster-portrait mobile-hide"></a>
+                        <a href="/movie/late-night"><img src="https://d10u9ygjms7run.cloudfront.net/jrvyz6cav5m2kaq1mqmsb7ag7r/1555218160482_ELIZSTILL.png" class="poster-landscape mobile-show"></a>
+
+                        <div class="movie-info upcoming">
+                            <a href="/movie/late-night"><h2>Late Night</h2></a>
+                            <p class="release-date">
+                                    25 July 2019
+                            </p>
+                        </div>
+                    </div>
+                    <div class="movie flex-item-stretch">
+                        <a href="/movie/andr-rieus-2019-maastricht---shall-we-dance"><img src="https://d10u9ygjms7run.cloudfront.net/jrvyz6cav5m2kaq1mqmsb7ag7r/1550631850173_Maastricht_Shallwedance3-4.png" class="poster-portrait mobile-hide"></a>
+                        <a href="/movie/andr-rieus-2019-maastricht---shall-we-dance"><img src="https://d10u9ygjms7run.cloudfront.net/jrvyz6cav5m2kaq1mqmsb7ag7r/1550632509620_Maastricht_Shallwedance_Quad.png" class="poster-landscape mobile-show"></a>
+
+                        <div class="movie-info upcoming">
+                            <a href="/movie/andr-rieus-2019-maastricht---shall-we-dance"><h2>André Rieu&#x27;s 2019 Maastricht - ‘Shall We Dance</h2></a>
+                            <p class="release-date">
+                                    27 July 2019
+                            </p>
+                        </div>
+                    </div>
+                    <div class="movie flex-item-stretch">
+                        <a href="/movie/exhibition-on-screen-season-6-young-picasso"><img src="https://d10u9ygjms7run.cloudfront.net/jrvyz6cav5m2kaq1mqmsb7ag7r/1555645350373_picasso.png" class="poster-portrait mobile-hide"></a>
+                        <a href="/movie/exhibition-on-screen-season-6-young-picasso"><img src="https://d10u9ygjms7run.cloudfront.net/jrvyz6cav5m2kaq1mqmsb7ag7r/1555645349124_IMAGE1.png" class="poster-landscape mobile-show"></a>
+
+                        <div class="movie-info upcoming">
+                            <a href="/movie/exhibition-on-screen-season-6-young-picasso"><h2>EXHIBITION ON SCREEN: Season 6; Young Picasso</h2></a>
+                            <p class="release-date">
+                                    1 August 2019
+                            </p>
+                        </div>
+                    </div>
+                    <div class="movie flex-item-stretch">
+                        <a href="/movie/exhibition-on-screen-season-6-rembrandt-encore"><img src="https://d10u9ygjms7run.cloudfront.net/jrvyz6cav5m2kaq1mqmsb7ag7r/1555645314087_rembrandt.png" class="poster-portrait mobile-hide"></a>
+                        <a href="/movie/exhibition-on-screen-season-6-rembrandt-encore"><img src="https://d10u9ygjms7run.cloudfront.net/jrvyz6cav5m2kaq1mqmsb7ag7r/1555645328023_RembrandtPortraitofaCoupleasIsaacandRebeccaknownasTheJewishBridec1665RijksmuseumAmsterdam.png" class="poster-landscape mobile-show"></a>
+
+                        <div class="movie-info upcoming">
+                            <a href="/movie/exhibition-on-screen-season-6-rembrandt-encore"><h2>EXHIBITION ON SCREEN Season 6: Rembrandt (ENCORE)</h2></a>
+                            <p class="release-date">
+                                    26 September 2019
+                            </p>
+                        </div>
+                    </div>
+                    <div class="movie flex-item-stretch">
+                        <a href="/movie/exhibition-on-screen-season-6-van-gogh--japan"><img src="https://d10u9ygjms7run.cloudfront.net/jrvyz6cav5m2kaq1mqmsb7ag7r/1556978640578_Poster.jpg" class="poster-portrait mobile-hide"></a>
+                        <a href="/movie/exhibition-on-screen-season-6-van-gogh--japan"><img src="https://d10u9ygjms7run.cloudfront.net/jrvyz6cav5m2kaq1mqmsb7ag7r/1556978640830_Poster.png" class="poster-landscape mobile-show"></a>
+
+                        <div class="movie-info upcoming">
+                            <a href="/movie/exhibition-on-screen-season-6-van-gogh--japan"><h2>EXHIBITION ON SCREEN Season 6: Van Gogh &amp; Japan</h2></a>
+                            <p class="release-date">
+                                    21 November 2019
+                            </p>
+                        </div>
+                    </div>
+
+                <div class="movie flex-item-stretch blank">&nbsp;</div>
+            </div>
+        </div>
+
+        <aside class="mobile-hide tablet-hide">
+            <div class="coming-soon">
+                <h2>ADVANCE TICKETS</h2>
+
+                <ul class="coming-soon">
+                    <li><a href="/movie/the-hustle/">The Hustle</a></li>
+                    <li><a href="/movie/poms/">Poms</a></li>
+                    <li><a href="/movie/pokemon-detective-pikachu/">Pokemon Detective Pikachu</a></li>
+                    <li><a href="/movie/the-room/">The Room</a></li>
+                    <li><a href="/movie/2001-a-space-odyssey/">2001: A Space Odyssey</a></li>
+                    <li><a href="/movie/the-pretend-one/">The Pretend One</a></li>
+                    <li><a href="/movie/john-wick-chapter-3/">John Wick: Chapter 3</a></li>
+                    <li><a href="/movie/over-the-fence-comedy-film-festival/">Over The Fence Comedy Film Festival</a></li>
+                    <li><a href="/movie/dirty-dancing/">Dirty Dancing</a></li>
+                    <li><a href="/movie/acute-misfortune/">Acute Misfortune</a></li>
+                    <li><a href="/movie/rocky-horror-picture-show/">Rocky Horror Picture Show</a></li>
+                    <li><a href="/movie/gauguin-in-tahiti-paradise-lost/">Gauguin in Tahiti: Paradise Lost</a></li>
+                    <li><a href="/movie/aladdin/">Aladdin</a></li>
+                    <li><a href="/movie/brightburn/">BrightBurn</a></li>
+                    <li><a href="/movie/the-predator/">The Predator (1987)</a></li>
+                    <li><a href="/movie/rockabul/">Rockabul</a></li>
+                    <li><a href="/movie/state-of-origin-game-1/">State of Origin: Game 1</a></li>
+                    <li><a href="/movie/x-men-dark-phoenix/">X-Men: Dark Phoenix</a></li>
+                    <li><a href="/movie/exhibition-on-screen-season-6-degas---passion-fo/">EXHIBITION ON SCREEN: Season 6; Degas - Passion fo</a></li>
+                    <li><a href="/movie/alien-directors-cut/">Alien Director&#x27;s Cut</a></li>
+                    <li><a href="/movie/tolkien/">Tolkien</a></li>
+                    <li><a href="/movie/warren-millers-face-of-winter/">Warren Miller&#x27;s Face of Winter</a></li>
+                    <li><a href="/movie/me-and-my-left-brain/">Me and My Left Brain</a></li>
+                    <li><a href="/movie/the-secret-life-of-pets-2/">The Secret Life of Pets 2</a></li>
+                    <li><a href="/movie/yesterday/">Yesterday</a></li>
+                    <li><a href="/movie/the-prado-museum-a-collection-of-wonders/">The Prado Museum: A Collection of Wonders</a></li>
+                    <li><a href="/movie/art--mind/">Art &amp; Mind</a></li>
+                    <li><a href="/movie/late-night/">Late Night</a></li>
+                    <li><a href="/movie/andr-rieus-2019-maastricht---shall-we-dance/">André Rieu&#x27;s 2019 Maastricht - ‘Shall We Dance</a></li>
+                    <li><a href="/movie/exhibition-on-screen-season-6-young-picasso/">EXHIBITION ON SCREEN: Season 6; Young Picasso</a></li>
+                    <li><a href="/movie/exhibition-on-screen-season-6-rembrandt-encore/">EXHIBITION ON SCREEN Season 6: Rembrandt (ENCORE)</a></li>
+                    <li><a href="/movie/exhibition-on-screen-season-6-van-gogh--japan/">EXHIBITION ON SCREEN Season 6: Van Gogh &amp; Japan</a></li>
+                </ul>
+            </div>
+
+                            <div class="coming-soon" style="margin-bottom:-12px;">
+<h2>Operated by</h2>
+<img src="https://d10u9ygjms7run.cloudfront.net/qf6h9h6ahq1bd96ksvnypxjcf0/1521276876721_fivestarlogo.png">
+<div style="padding:12px;">
+  
+    <a href="/star-club"><button style="display:block; width:100%; margin-top:0px;" class="button button_primary">Join "The Star Club"</button></a>
+    <a href="/subscribe"><button style="display:block; width:100%; margin-top:12px;" class="button button_primary">Join our mailing list</button></a>
+<!--<a href="https://print.fivestarcinemas.com.au" target="_new"><button style="display:block; width:100%; margin-top:12px;" class="button button_primary" >Quick Times</button></a>-->
+</div>
+</div>
+                            </aside>
+<div class="desktop-hide" style="background-color:#212020; width:100%; padding:6px; padding-bottom:10px; text-align:center;">
+<img src="https://d10u9ygjms7run.cloudfront.net/b301x9vh03t9wavngphacm6t24/1523482323009_fsc_footer.png" width="100px"></img></div>
+
+
+<aside class="mobile-hide tablet-hide">
+        </aside>
+    </section>
+
+    <script type="text/javascript">
+        var theme = '',
+            movieData = null;
+    </script>
+
+
+    <footer>
+        <section>
+            <nav>
+                <ul>
+                    <li><a    href="/five-star-cinemas">FIVE STAR CINEMAS</a></li>
+                    <li><a    href="/star-club">THE STAR CLUB</a></li>
+                    <li><a    href="/subscribe">JOIN OUR MAILING LIST</a></li>
+                    <li><a    href="/food-and-drink">FOOD &amp; DRINK</a></li>
+                    <li><a    href="/prices">TICKET PRICES</a></li>
+                    <li><a    href="/contact-us">CONTACT US</a></li>
+                    <li><a    href="/groups-and-hire">GROUPS &amp; HIRE</a></li>
+                    <li><a    href="/gift-cards">GIFT CARDS</a></li>
+                    <li><a    href="/premium">PREMIUM CINEMAS</a></li>
+                    <li><a    href="/mums-and-bubs">MUMS AND BUBS</a></li>
+                </ul>
+            </nav>
+
+            <hr />
+
+            <div class="custom-footer-info">New Farm Cinema Brisbane | 701 Brunswick Street, New Farm, QLD 4005 | Phone (07) 3358-4444</div>
+
+            <div class="social-media">
+                <a href="https://www.youtube.com/channel/UC1f7VP7l20bEc3BMcDxEIpg" target="_blank" class="youtube-footer"></a> 
+                <a href="http://www.twitter.com/NewFarmCinemas" target="_blank" class="twitter-footer"></a> 
+                <a href="http://www.instagram.com/newfarmcinemas/" target="_blank" class="instagram-footer"></a> 
+                <a href="https://www.facebook.com/newfarmcinemas/" target="_blank" class="facebook-footer"></a> 
+
+                <p class="copyright">Website &copy; 2019 <a href="http://flicks.com.au" target="_blank">Flicks Ltd</a></p>
+            </div>
+        </section>
+    </footer>
+
+    <!-- include main script file -->
+    <script type="text/javascript" src="https://d10u9ygjms7run.cloudfront.net/template_1/js/main.js?c=v2.9.14"></script>
+
+        <link rel="stylesheet" type="text/css" href="https://d10u9ygjms7run.cloudfront.net/jrvyz6cav5m2kaq1mqmsb7ag7r/1523627639366_newfarm.css">
+
+    <link rel="stylesheet" type="text/css" media="print" href="https://d10u9ygjms7run.cloudfront.net/template_1/css/print.css?c=v2.9.14">
+
+    <script>
+        (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+        (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+        m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+        })(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
+
+        ga('create', 'UA-52774257-1', 'auto');
+        ga('create', 'UA-104063286-3', 'auto', 'dTracker');
+        ga('dTracker.send', 'pageview');
+        ga('send', 'pageview');
+
+    </script>
+
+
+
+
+
+            <div id="fb-root"></div>
+<script>(function(d, s, id) {
+  var js, fjs = d.getElementsByTagName(s)[0];
+  if (d.getElementById(id)) return;
+  js = d.createElement(s); js.id = id;
+  js.src = 'https://connect.facebook.net/en_GB/sdk.js#xfbml=1&version=v2.12';
+  fjs.parentNode.insertBefore(js, fjs);
+}(document, 'script', 'facebook-jssdk'));</script>
+
+
+
+
+
+
+
+     <script type="text/javascript">
+        var myLazyLoad;
+        $(document).ready(function () {
+            //hide the pop up if cookies are not enabled on client's browser, we don't
+            //normally get here
+            if (!navigator.cookieEnabled) {
+                $('#cinemaSelector').hide();
+            }
+
+             myLazyLoad = new LazyLoad();
+        });
+    </script>
+
+</body>
+</html>
