@@ -248,10 +248,9 @@ def event(event_x, number_label = ''): # default number label equals nothing.
         return title_8, image_8, date_8
     elif event_x == '(9)':
         return title_9, image_9, date_9
-    elif event_x == '(10)':
-        return title_10, image_10, date_10
-    else: # If another value is inputted, lets not do anything.
-        pass
+    else:
+        if event_x == '(10)':
+            return title_10, image_10, date_10
     
 # Define a function to return a list of events either for the planner or tk gui.
 def list_events(string_value):
@@ -556,6 +555,8 @@ outcome_message1a = """
 <!DOC TYPE HTML>
 <html>
 <head>
+    <!-- Add a Meta Character set for unicodes -->
+    <meta charset="UTF-8">
     <!-- Add a CSS style to the html document -->
     <style>
         body       {border: solid blue; border-width: thin;
@@ -564,8 +565,9 @@ outcome_message1a = """
         h1, h2     {text-align: center; color:rgb(0, 100, 255)}
         h3         {text-align: left; color:rgb(0, 100, 255)}
         td         {color: #000080}
-        img        {border: 2px double #DAA520;
-                    border-radius: 2px; padding: 1px}
+        img        {border: 2px double #DAA520; border-radius: 2px;
+                    padding: 1px}
+        img.table  {max-width: 70%; max-height: auto}
         
     </style>
 </head>
@@ -578,7 +580,7 @@ outcome_message1a = """
         
         <!-- The section below will include the selected events -->
         <table align='center'; style="width:500px"; border="solid";
-               cellpadding='25'>
+               cellpadding='15'>
         """
 # This segment will be used to store events inside.
 outcome_message1b = ""
@@ -609,6 +611,8 @@ outcome_message2 = """
 <!DOC TYPE HTML>
 <html>
 <head>
+    <!-- Add a Meta Character set for unicodes -->
+    <meta charset="UTF-8">
     <!-- Add a CSS style to the html document -->
     <style>
         body       {border: solid blue; border-width: thin;
@@ -616,8 +620,8 @@ outcome_message2 = """
         p          {color:rgb(0, 100, 255)}
         h1, h2     {text-align: center; color:rgb(0, 100, 255)}
         h3         {text-align: left; color:rgb(0, 100, 255)}
-        img        {border: 1px solid #DAA520;
-                    border-radius: 2px; padding: 1px}
+        img        {border: 1px solid #DAA520; border-radius: 2px;
+                    padding: 1px}
     </style>
 </head>
     <title> Your Entertainment Planner & Guide </title>
@@ -659,17 +663,14 @@ def table_events():
     if len(s_events_list) > 0:
         # For each event element - title, image and date - add to the string.
         for add in s_events_list:
-                # The first index '0' of add is the event title
-                events = events + '<tr><td width=\'350\';height=\'300\'>'\
+                # Add the titles, images and datetime into the string
+                events = events + '<tr><td width=\'100%\'; height=\'100%\'>'\
                                 + '<center><big><strong>'\
                                 + add[0] + '</big></strong>'\
-                                + '</center><br>'
-                # The second index '1' of add is the event image
-                events = events + '<center><img src=' \
-                                 + add[1] + 'width=\'350\' height =\'300\'>'\
-                                 + '</center><br>'
-                # The third index '2' of add is the event datetime
-                events = events + '<center><strong>' + 'When: '\
+                                + '<br><br>'\
+                                + '<img class="table" src=' \
+                                + add[1] + '>'\
+                                + '<strong><br><br>' + 'When: '\
                                 + add[2] + '</strong></center></td></tr>'
     # The event components containing title, image and date are added
     outcome_message1b = events
@@ -815,7 +816,7 @@ def save_database():
 ##---------METHODS TO LOAD PAGES, PRINT PLANNER AND OTHER FEATURES------------##
 
 # Function to load all pages at startup, when printing and toggling offline mode
-def load_pages(load_type):
+def load_pages():
     # Define a function to call the three webpages and withdraw them immediately
     def invoke_pages():
         Art_button_pressed(True) # True withdraws the window upon opening.
@@ -823,22 +824,14 @@ def load_pages(load_type):
         Cinema_button_pressed(True)
     # To speed up the process when booting the program it is ideal that live
     # webpages should not be loaded as it will take longer to load the program.
-    if load_type == 'at startup':
-        # Select the offline button
-        Offline_button.select()
-        # Load the static webpages by invoking the pages
-        invoke_pages()
-        # Revert the selection since the default mode is sourcing online pages
-        Offline_button.deselect()
     # This is required when toggling the offline button and printing the planner
-    if load_type == 'other':
-        if work_offline_selection.get() == False:
-            Offline_button.select()
+    if work_offline_selection.get() == False:
+        Offline_button.select()
+        invoke_pages()
+        Offline_button.deselect()
+    else:# If user decides to work offline, the selection won't be reverted.
+        if work_offline_selection.get() == True:
             invoke_pages()
-            Offline_button.deselect()
-        else:# If user decides to work offline, the selection won't be reverted.
-            if work_offline_selection.get() == True:
-                invoke_pages()
         
 # Function that binds to the print button. It will export a html document.
 def Print_planner():
@@ -847,7 +840,7 @@ def Print_planner():
     # Enable the save button when the planner is printed
     Save_db_button['state'] = 'normal'
     # Call the function to load the pages so the new planner button can function
-    load_pages('other')
+    load_pages()
     # Call the function to to make events writeable and create the planner
     events_to_write()
     create_planner()
@@ -890,7 +883,23 @@ def category_text(mode):
         Art_button['text'] = '  Former Art/works!  '
         Music_button['text'] = '  Past Music!  '
         Cinema_button['text'] = '  Past Movies!  '
+
+# Function to deselect the event check buttons and/or offline button
+def deselect_cb(action):
+    # Define a variable to store all the event check buttons
+    all_cb = cba + cbm + cbc
+    # A variable to store all the event check buttons and the offline button
+    all_cb_offline = cba + cbm + cbc + [Offline_button]
+    if action == 'event cb':
+        for checkbutton in all_cb:
+            # Deselect method unchecks the event checkbuttons
+            checkbutton.deselect()
+    if action == 'event cb & offline':
+        for checkbutton in all_cb_offline:
+            # Deselect method unchecks the event checkbuttons
+            checkbutton.deselect()
         
+
 # Function to bind to the 'New button'. Creates a new planner.
 def Start_new_planner():
     # Call the function Hide the additional widgets
@@ -902,9 +911,7 @@ def Start_new_planner():
     # Set all main widget states to normal, so that users can make a new planner
     widgets_state('turn on')
     # Deselect all the event check buttons and the offline button
-    all_cb = cba + cbm + cbc + [Offline_button]
-    for checkbutton in all_cb:
-        checkbutton.deselect()
+    deselect_cb('event cb & offline')
     # Thereafter, the update the progress tracker with 'new planner created'.
     progress_tracker('New Planner Created!')
     # Clear the open and save label text
@@ -916,14 +923,7 @@ def Start_new_planner():
 # Function to bind to the offline button.
 def update_offline():
     # Call the function to load the pages to facilitate the process below
-    load_pages('other')
-    # Function to deselect all event check buttons using a loop
-    def deselect_eventbuttons():
-        # Define a variable to store all the event check buttons
-        all_cb = cba + cbm + cbc
-        for checkbutton in all_cb:
-            # Deselect method unchecks the event checkbuttons
-            checkbutton.deselect()
+    load_pages()
     # If statement to process outcomes based on toggling the offline button:
     if work_offline_selection.get() == True:
         # Update the display of the progress_tracker label to offline mode
@@ -931,14 +931,14 @@ def update_offline():
         # Call the function to change the text of the 3 categories to past text
         category_text('offline')
         # the event checkboxes are deselected upon toggling the offline button.
-        deselect_eventbuttons()
+        deselect_cb('event cb')
     else:# When offline mode is deselected - revert back to the original text.
         # Update the display of the progress tracker label to online mode
         progress_tracker('you are working online! ☞')
         # Call the function to change the 3 category buttons to present text
         category_text('online')
         # the event checkboxes are deselected upon toggling the offline button.
-        deselect_eventbuttons()
+        deselect_cb('event cb')
 
 ##--------------------MAIN_WINDOW GRAPHICAL USER INTERFACE--------------------##
 # Create the main window
@@ -1122,7 +1122,7 @@ def extra_images(action):
 extra_images('pack')
 
 # Load the webpages when the program is opened
-load_pages('at startup')
+load_pages()
 
 # Start the event loop to react to user inputs
 main_window.mainloop()
